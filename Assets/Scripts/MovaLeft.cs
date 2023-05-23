@@ -7,11 +7,12 @@ public class MovaLeft : MonoBehaviour
     public float moveSpeed=20;
 
     private PlayerController playerControllerScript;
+    private float leftBound = -15;
 
-    // Start is called before the first frame update
+
     void Start()
     {
-        playerControllerScript=GetComponent<PlayerController>();    
+        playerControllerScript=GameObject.Find("Player").GetComponent<PlayerController>();    
     }
 
 
@@ -22,6 +23,10 @@ public class MovaLeft : MonoBehaviour
             if (playerControllerScript.isGameOver == false)
             {
                 transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+            }
+            if (transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))
+            {
+                Destroy(gameObject);
             }
         }
     }
