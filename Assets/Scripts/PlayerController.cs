@@ -49,11 +49,9 @@ public class PlayerController : MonoBehaviour
         {
             ReaddyToGo();
             playerAnimator.SetFloat("Speed_f", 0.3f);
-            //isGameOver = true;
         }
         if (readyTime > 2)
         {
-            //isGameOver = false;
             playerAnimator.SetFloat("Speed_f", 1f);
         }
 
