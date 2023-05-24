@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     //记录状态：是否在地面，是否游戏结束
     public bool isOnGround = true;
     public bool isGameOver = false;
+    public int jumpIndex = 0;
     //获取动效和音效组件
     public ParticleSystem boomParticle;
     public ParticleSystem dirtParticle;
@@ -31,13 +32,18 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         //获取音效组件
         playerAudioSource = GetComponent<AudioSource>();
+
+     
+        StartCoroutine(ChangeAnimatorState());
     }
 
     void Update()
     {
+        
         //跳跃条件：在地面 且 游戏在进行
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && isGameOver == false)
+        if (Input.GetKeyDown(KeyCode.Space) && isGameOver == false&&jumpIndex<2)
         {
+            jumpIndex += 1;
             playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);//跳跃力
             isOnGround = false;//改变触地状态
             dirtParticle.Stop();//停止播放尾迹动效
@@ -49,10 +55,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        playerAnimator.SetFloat("Speed_f", 0.6f);
+
         //地面状态
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            jumpIndex = 0;
             dirtParticle.Play();
         }
         //碰到障碍的状态
@@ -66,5 +75,14 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             playerAudioSource.PlayOneShot(crashSFX, 1f);
         }
+    }
+
+    private IEnumerator ChangeAnimatorState()
+    {
+        playerAnimator.SetFloat("Speed_f", 0.3f);//开始时为0.3
+        yield return new WaitForSeconds(2f);//持续5秒
+
+        playerAnimator.SetFloat("Speed_f", 1f);//五秒后为1
+        yield break;
     }
 }

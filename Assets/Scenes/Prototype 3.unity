@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -692,7 +692,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aebc41be9b50784aa605e72c36967e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 4623352048615792557, guid: 55c43fabd372c48498b3397d07fe3c2f, type: 3}
+  obstacleArray:
+  - {fileID: 4623352048615792557, guid: 55c43fabd372c48498b3397d07fe3c2f, type: 3}
+  - {fileID: 3013401799554295340, guid: 420f93ededb75254895a1198424b88df, type: 3}
+  - {fileID: 958428511904319528, guid: 151a3a84571ccf24daea8d2af67e2181, type: 3}
+  - {fileID: 2753051865380236284, guid: 7b30cfa6e864a7e4d8b066800d004f4b, type: 3}
+  - {fileID: 4539033144407399869, guid: 22d28b172ebcca34b8da2cb96d4e850f, type: 3}
   spawnDelay: 2
   spawnInterval: 2
 --- !u!4 &1277535820
@@ -913,6 +918,7 @@ MonoBehaviour:
   gravityModifier: 3
   isOnGround: 1
   isGameOver: 0
+  jumpIndex: 0
   boomParticle: {fileID: 305569213}
   dirtParticle: {fileID: 432762551}
   playerAudioSource: {fileID: 0}
