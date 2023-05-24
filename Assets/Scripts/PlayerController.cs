@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudioSource;
     public AudioClip jumpSFX;
     public AudioClip crashSFX;
+    //用于记录开局的准备时间
+    private float readyTime = 0;
+    private Vector3 posA = new Vector3(-8, 0, 0);
+    private Vector3 posB = new Vector3(0, 0, 0);
 
 
     void Start()
@@ -33,15 +37,28 @@ public class PlayerController : MonoBehaviour
         //获取音效组件
         playerAudioSource = GetComponent<AudioSource>();
 
-     
-        StartCoroutine(ChangeAnimatorState());
+        //StartCoroutine(ChangeAnimatorState());
     }
 
     void Update()
     {
-        
+        //开局前2秒，走路进场
+        readyTime += Time.deltaTime;
+
+        if (readyTime <= 2)
+        {
+            ReaddyToGo();
+            playerAnimator.SetFloat("Speed_f", 0.3f);
+            //isGameOver = true;
+        }
+        if (readyTime > 2)
+        {
+            //isGameOver = false;
+            playerAnimator.SetFloat("Speed_f", 1f);
+        }
+
         //跳跃条件：在地面 且 游戏在进行
-        if (Input.GetKeyDown(KeyCode.Space) && isGameOver == false&&jumpIndex<2)
+        if (Input.GetKeyDown(KeyCode.Space) && isGameOver == false && jumpIndex < 2)
         {
             jumpIndex += 1;
             playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);//跳跃力
@@ -49,7 +66,7 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();//停止播放尾迹动效
 
             playerAnimator.SetTrigger("Jump_trig");//触发跑》跳之间的开关
-            playerAudioSource.PlayOneShot(jumpSFX,0.8f);//播放跳跃音效
+            playerAudioSource.PlayOneShot(jumpSFX, 0.8f);//播放跳跃音效
         }
     }
 
@@ -80,9 +97,17 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ChangeAnimatorState()
     {
         playerAnimator.SetFloat("Speed_f", 0.3f);//开始时为0.3
-        yield return new WaitForSeconds(2f);//持续5秒
+        yield return new WaitForSeconds(2f);//持续2秒
 
-        playerAnimator.SetFloat("Speed_f", 1f);//五秒后为1
+        playerAnimator.SetFloat("Speed_f", 1f);//2秒后为1
         yield break;
+    }
+
+    void ReaddyToGo()
+    {
+        float t = Mathf.Clamp01(readyTime / 2);
+
+        transform.position = Vector3.Lerp(posA, posB, t);
+
     }
 }

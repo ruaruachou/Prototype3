@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovaLeft : MonoBehaviour
+public class MoveLeft : MonoBehaviour
 {
     public float normalMoveSpeed = 20;
 
@@ -38,12 +38,12 @@ public class MovaLeft : MonoBehaviour
     }
     void SpeedUp()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)&&playerControllerScript.isGameOver==false)
         {
             normalMoveSpeed = 40;
             playerAnimator.speed = 3;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0)&&playerControllerScript.isGameOver==false)
         {
             normalMoveSpeed = 20;
             playerAnimator.speed = 1;    
